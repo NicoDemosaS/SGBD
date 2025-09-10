@@ -1,0 +1,14 @@
+1- select LPAD(Car_codigo, 5, '0'), RPAD(Car_descricao, 30, '.') || '  R$' ||Car_salarioBase from Tb_cargo;
+select LPAD(Car_codigo, 5, '0') from Tb_cargo;
+
+
+2- select 'O cliente ' || CLI_NOME || ' possui CPF: ' || NVL(CLI_CPF, '000.000.000-00')|| ' RG: ' || Cli_RG || ' e possui prazo de devolucao de ' || cli_prazodevol || ' dias ' AS INFORMACOES from tb_cliente;
+
+3- select cli_nome, cli_rg from tb_cliente where cli_cpf is null and cli_rg is not null;
+
+4-select cli_nome, INSTR(UPPER(Cli_nome), 'SOUZA') as Posicao from tb_cliente where UPPER(cli_nome) LIKE '%SOUZA%';
+
+5-SELECT REPLACE(UPPER(End_descricao), 'RUA', 'AVENIDA') as Endereco
+FROM Tb_endereco where SUBSTR(end_descricao, 8, 1) BETWEEN 'C' and 'H';
+
+
