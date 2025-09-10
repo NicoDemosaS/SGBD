@@ -1,0 +1,21 @@
+1
+select * from tb_cargo where car_salariobase between 700 and 800 and car_descricao != 'Assistente Bibliotecario'
+
+2- select car_descricao, car_salariobase*1.20 as Aumento from tb_cargo where car_salariobase*1.20 > 900;
+
+3- select EXEPRE_DTPREVDEV from tb_exemplaremprestimo where EXEPRE_DTPREVDEV between '02/03/2010' and '05/03/2010';
+
+4- select * from tb_cliente where Cli_rg is not null and Cli_CPF is not null and cli_fone is not null
+and Cli_PrazoDevol >= 5;
+
+5- select Liv_Titulo, Liv_Ano from Tb_Livro where Liv_Titulo like '%Banco%' and Liv_Ano = 2001;
+
+6- select Emp_Data, Emp_CodCliente from Tb_emprestimo where Emp_Data like '%08' and Emp_CodCliente = 10;
+
+7- select * from Tb_Exemplar where Exe_Status = 'Locado';
+
+8- select * from tb_cliente 
+
+9- select Cli_Codigo, Cli_Nome from Tb_Cliente order by cli_nome;
+
+10- select * from tb_cliente order by cli_codbairro desc, cli_codcidade, cli_nome;
