@@ -1,0 +1,20 @@
+Exercicios IV ;d ->
+1- select COUNT(Exepre_CodExemplar) as Contagem from Tb_ExemplarEmprestimo group by exepre_codexemplar;
+
+2- select COUNT(autliv_codautor) as Contagem from tb_autorlivro where autliv_codlivro = 5;
+
+3- select autliv_codautor, count(*) from tb_autorlivro group by autliv_codautor;
+
+4- select avg(sum(exepre_valormulta)) as MediaMulta from tb_exemplaremprestimo group by exepre_codemprestimo;
+
+5- select TO_CHAR(emp_data, 'MM/YYYY') as MES ,count(*) from tb_emprestimo group by TO_CHAR(emp_data, 'MM/YYYY') ORDER BY MES;
+
+6- select exepre_codexemplar, max(sum(exepre_valormulta)) as Multa from tb_exemplaremprestimo group by exepre_codexemplar order by Multa;
+
+7- select count(*) as Quantidade from tb_funcionario group by fun_codcargo;
+
+8- select avg(count(emp_codigo)) from tb_emprestimo group by emp_data;
+
+9- select count(*) from tb_reserva group by res_codlivro;
+
+10-select liv_codeditora, liv_ano, count(*) from tb_livro group by liv_codeditora, liv_ano;
