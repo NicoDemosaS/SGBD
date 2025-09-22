@@ -1,0 +1,21 @@
+Exercicios V JOIN
+1-  select cli_nome, end_descricao, bai_descricao, cid_descricao from tb_endereco
+	join tb_cliente on end_codigo = cli_codendereco
+	join tb_bairro on cli_codbairro = bai_codigo
+	join tb_cidade on cid_codigo = cli_codcidade
+	where cid_descricao = 'Capanema';
+
+
+2- SELECT exepre_codemprestimo, SUM(exepre_valormulta)
+	FROM tb_exemplaremprestimo
+	GROUP BY exepre_codemprestimo
+	HAVING SUM(exepre_valormulta) > 0
+	ORDER BY SUM(exepre_valormulta) DESC;
+
+	
+3- select aut_nome from tb_autor
+	join tb_autorlivro on aut_codigo = autliv_codautor
+	join tb_livro on autliv_codlivro = liv_codigo
+	where liv_codigo = 5;
+
+4- 
