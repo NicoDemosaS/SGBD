@@ -18,4 +18,84 @@ Exercicios V JOIN
 	join tb_livro on autliv_codlivro = liv_codigo
 	where liv_codigo = 5;
 
-4- 
+4- select cli_nome, count(res_codigo) from tb_cliente
+join tb_reserva on cli_codigo = res_codcliente group by cli_nome;
+
+5- select cli_nome, count(exepre_codexemplar) from tb_cliente
+join tb_emprestimo on emp_codcliente = cli_codigo
+join tb_exemplaremprestimo on emp_codigo = exepre_codemprestimo
+group by cli_nome;
+
+6- select fun_nome, car_descricao, 'R$' || SUBSTR(car_salariobase, 1,3) || '.' || SUBSTR(car_salariobase, 3, 3) || ',' || SUBSTR(car_salariobase, 6, 3)
+from tb_funcionario
+join Tb_Cargo on fun_codcargo = car_codigo;
+
+6- > correta>>> 
+select fun_nome, car_descricao, TO_CHAR(car_salariobase, 'L99G999D99')
+from tb_funcionario
+join Tb_Cargo on fun_codcargo = car_codigo;
+
+7- select liv_titulo, cat_descricao, edi_nome from tb_livro
+join tb_categorias on cat_codigo = liv_codcategoria
+join tb_editora on edi_codigo = liv_codeditora;
+
+8- select cli_nome, Cid_descricao, bai_descricao, emp_codigo from tb_cliente
+join tb_bairro on cli_codbairro = bai_codigo
+join tb_emprestimo on emp_codcliente = cli_codigo
+join tb_cidade on cli_codcidade = cid_codigo 
+where cid_descricao = 'Capanema' AND bai_descricao = 'Vila Portes';
+
+9- select count(res_codigo) from tb_reserva
+join tb_livro on res_codlivro = liv_codigo
+join tb_categoria on liv_codcategoria = cat_codigo
+where cat_descricao = 'Informática';
+
+10- select Edi_nome, Liv_titulo from tb_editora
+join tb_livro on liv_codeditora = edi_codigo
+where edi_nome = '&editora';
+
+11- select Cli_nome, emp_data, Fun_nome from tb_cliente
+join tb_emprestimo on emp_codcliente = cli_codigo
+join tb_funcionario on emp_codfuncionario = fun_codigo
+where emp_data BETWEEN '01/08/2009' AND '01/09/2009';
+
+12- select cli_nome, liv_titulo from tb_livro
+join tb_reserva on res_codlivro = liv_codigo
+join tb_cliente on res_codcliente = cli_codigo
+where cli_nome = 'Carlos Pereira';
+
+13- select fun_nome, count(res_codigo), TO_CHAR(res_data, 'MM/YYYY') from tb_funcionario
+join tb_emprestimo on emp_codfuncionario = fun_codigo
+join tb_exemplaremprestimo on emp_codigo = exepre_codemprestimo
+join tb_reserva on res_codigo = exepre_codreserva
+where fun_nome = 'Tatiane Ferreira'
+GROUP BY
+    fun_nome,
+    TO_CHAR(res_data, 'MM/YYYY')
+;
+
+14 - select liv_titulo from tb_livro
+join tb_autorlivro on autliv_codlivro = liv_codigo
+HAVING count(autliv_codautor) >= 2 group by liv_titulo;
+
+15- select liv_titulo, count(*) from tb_livro
+join tb_exemplar on liv_codigo = exe_codlivro
+having count(*) > 5
+group by liv_titulo;
+
+16-
+select liv_titulo
+from tb_cliente inner join tb_emprestimo
+on cli_codigo = emp_codcliente
+inner join tb_exemplaremprestimo on emp_codigo = exepre_codemprestimo
+inner join tb_exemplar on exepre_codexemplar = exe_codigo
+inner join tb_livro on exe_codlivro = liv_codigo
+where upper(cli_nome) = 'JOSIMEIRI CALGARO JUVENAL';
+
+
+17 - select liv_titulo liv_titulo
+from tb_autor inner join tb_autorlivro
+on aut_codigo = autliv_codautor 
+inner oin tb_livro
+on autliv_codlivro = liv_codigo
+where upper(aut_nome) = 'RUI JOSÉ DE ARRUDA CAMPOS';
