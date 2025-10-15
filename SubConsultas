@@ -1,0 +1,66 @@
+subconsultas exercícios tops há
+1) Utilizando subconsultas, realize uma consulta que retorne quais os cargos que
+tem salário acima da média de todos os cargos;
+select car_descricao, car_salariobase from tb_cargo
+where car_salariobase 
+			> (SELECT avg(car_salariobase) from tb_cargo);
+
+2) Utilizando subconsultas, realize uma consulta que retorne quais os funcionários
+que realizaram mais que 1/3 de todas as reservas;
+
+select fun_nome, count(res_codigo) from tb_funcionario
+	join tb_emprestimo on emp_codfuncionario = fun_codigo
+	join tb_exemplaremprestimo on exepre_codemprestimo = emp_codigo
+	join tb_reserva on res_codigo = exepre_codreserva
+GROUP BY fun_nome
+HAVING count(res_codigo) > (select count(res_codigo) from tb_reserva)/3;
+
+3) Utilizando subconsultas, realize uma consulta que retorne os exemplares que
+foram emprestados mais vezes que a média de empréstimo por exemplar já
+emprestado;
+
+
+select exepre_codexemplar from tb_exemplaremprestimo 
+WHERE count(exepre_codemprestimo) >
+(select avg(count(exepre_codemprestimo)) from tb_exemplaremprestimo group by exepre_codexemplar);
+
+4) Utilizando subconsultas, realize uma consulta que retorne quais autores
+possuem um número de publicações maiores que “José Cordeiro”;
+
+SELECT count(aut_codigo) as autor from TB_Autor 
+HAVING count(aut_codigo) > (SELECT count(aut_codigo) from TB_Autor WHERE Aut_Nome = 'José Cordeiro');
+
+5) Utilizando subconsultas, realize uma consulta de quais dias houve um número
+de empréstimos maior que o número de reservas;
+
+SELECT Emp_data, count(*) from TB_emprestimo GROUP BY EMP_DATA
+HAVING count(*) > (SELECT count(*) from TB_Reserva WHERE Res_Data = Emp_Data);
+
+6) Utilizando subconsultas, realize uma consulta que retorne quais exemplares
+ainda não foram emprestados;
+
+SELECT Exe_Codigo from tb_exemplar 
+WHERE Exe_Codigo NOT IN (SELECT EXEPRE_CODEXEMPLAR FROM TB_EXEMPLAREMPRESTIMO);
+
+7) Utilizando subconsultas, realize uma consulta que retorne qual é a rua com
+número de clientes maior que a média de clientes por rua;
+
+SELECT End_Descricao, COUNT(CLI_CODIGO) FROM Tb_Endereco 
+JOIN Tb_Cliente ON Cli_CodEndereco = End_Codigo GROUP BY End_Descricao
+HAVING COUNT(Cli_Codigo) > (SELECT AVG(COUNT(Cli_Codigo)) FROM Tb_Cliente GROUP BY End_Descricao);
+
+8) Utilizando subconsultas, realize uma consulta que retorne quais são os
+empréstimos que geraram multa
+
+SELECT Emp_Codigo from TB_Emprestimo WHERE EMP_CODIGO IN (SELECT EXEPRE_CODEMPRESTIMO FROM TB_EXEMPLAREMPRESTIMO WHERE Exepre_ValorMulta > 0);
+
+9) Utilizando subconsultas, realize uma consulta que retorne todos os
+empréstimos gerados pelo funcionário “Carlos Pereira”;
+
+SELECT * from tb_emprestimo where emp_codfuncionario IN (select fun_codigo from tb_funcionario 
+where upper(fun_nome) = 'CARLOS PEREIRA');
+
+10) Utilizando subconsultas, realize uma consulta que retorne todos os bairros que
+se tem clientes.
+
+SELECT Bai_Codigo, Bai_Descricao FROM TB_Bairro WHERE Bai_Codigo IN (SELECT Cli_CodBairro from tb_cliente);
