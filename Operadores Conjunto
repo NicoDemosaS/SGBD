@@ -1,0 +1,116 @@
+Exercício Operadores de Conjunto SGBD
+1) Escrever um comando SQL para mostra nome, data de emissão e valor título de todos
+os títulos do contas a pagar e contas a receber.
+select nome, dt_emissao, val_titulo from tb_cadastro
+inner join tb_conta_pagar on tb_cadastro.cod_cadastro = tb_conta_pagar.cod_contar_pagar
+union all
+select nome, dt_emissao, val_titulo from tb_cadastro
+inner join tb_conta_receber on tb_cadastro.cod_cadastro = tb_conta_receber.cod_conta_receber;
+
+
+
+2) Escrever um comando SQL para mostrar o nome e telefone de todos os cadastros que
+possuem títulos no contas a pagar ou contas a receber.
+select nome, telefone from tb_cadastro
+join tb_conta_pagar on tb_conta_pagar.cod_cadastro = tb_cadastro.cod_cadastro
+union
+select nome, telefone from tb_cadastro
+join tb_conta_receber on tb_conta_receber.cod_cadastro = tb_cadastro.cod_cadastro
+order by nome;
+
+3) Escrever um comando SQL para mostrar o nome e o valor total dos títulos do contas a
+pagar e contas a receber em ordem de nome.
+
+select nome, sum(vl_titulo) from tb_cadastro
+join tb_conta_pagar on tb_conta_pagar.cod_cadastro = tb_cadastro.cod_cadastro
+group by nome
+
+union
+
+select nome, sum(vl_titulo) from tb_cadastro
+join tb_conta_receber on tb_conta_receber.cod_cadastro = tb_cadastro.cod_cadastro
+group by nome
+order by nome;
+
+4) Escrever um comando SQL para mostrar o Saldo (Valor título do contas a receber –
+valor título do contas a pagar) por nome;
+select, tb_cadastro.nome, sum(Valor) from (select tb_cadastro.nome, sum(tb_conta_pagar.vl_titulo * -1) as Valor  from tb_cadastro
+join tb_conta_pagar on tb_conta_pagar.cod_cadastro = tb_cadastro.cod_cadastro
+group by tb_cadastro.nome
+
+union all
+
+select tb_cadastro.nome, sum(tb_conta_receber.vl_titulo) as Valor from tb_cadastro
+join tb_conta_receber on tb_conta_receber.cod_cadastro = tb_cadastro.cod_cadastro
+group by tb_cadastro.nome)
+group by tb_cadastro.nome;
+
+
+5) Escrever um comando sql para mostrar todos os clientes que possuem contas a
+receber mas não possuem contas a pagar.
+select tb_cadastro.nome from tb_cadastro
+join tb_conta_receber on tb_conta_receber.cod_cadastro = tb_cadastro.cod_cadastro
+minus
+select tb_cadastro.nome  from tb_cadastro
+join tb_conta_pagar on tb_conta_pagar.cod_cadastro = tb_cadastro.cod_cadastro;
+
+6) Escrever um comando sql para mostrar todos os clientes que possuem títulos a vencer
+e a pagar no mesmo dia.
+
+
+
+SELECT tb_cadastro.nome, tb_conta_pagar.Dt_vencimento from tb_conta_pagar
+join tb_conta_pagar on tb_conta_pagar.cod_cadastro = tb_cadastro.cod_cadastro
+intersect
+SELECT tb_cadastro.nome, tb_conta_receber.Dt_vencimento from tb_cadastro
+join tb_conta_receber on tb_conta_receber.cod_cadastro = tb_cadastro.cod_cadastro
+;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
