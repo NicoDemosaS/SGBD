@@ -1,0 +1,93 @@
+EXERCICIO VIEWS
+
+1) Crie uma view que forneça o nome de todos os livros emprestados, bem como
+o código e a data de empréstimo para que seja possível realizar uma consulta
+posterior;
+
+
+create view vi_livros_emprestados (nome_livro, cod_livro, data_emprestimo)
+AS
+select liv_titulo, liv_codigo, emp_data from tb_livro
+	join tb_exemplar on exe_codlivro =  liv_codigo
+	join tb_exemplaremprestimo on exepre_codexemplar = exe_codigo
+	join tb_emprestimo on emp_codigo = exepre_codemprestimo;
+
+2) Crie uma view que armazene o código de empréstimo e o valor total de multa
+do respectivo empréstimo;
+
+create view emprestimo_multa (cod_emprestimo, total_multa)
+AS
+SELECT emp_codigo, sum(exepre_valormulta) from tb_emprestimo
+	JOIN tb_exemplaremprestimo on exepre_codemprestimo = emp_codigo
+	group by emp_codigo;
+
+3) Crie uma view que armazene a quantidade de reservas realizadas por cada
+funcionário, considerando a data de reserva;
+
+create view reserva_por_funcionario (qt_reservas, nome_funcionario, data_reserva)
+AS
+SELECT sum(res_codigo), fun_nome, res_data from tb_reserva
+	JOIN tb_funcionario on res_codfunc = fun_codigo
+	group by fun_nome, res_data;
+
+
+4) Crie uma view que armazene o título do livro, a editora, o principal autor e a
+categoria do mesmo;
+
+create view info_livro (livro_titulo, editora_livro, autor_livro, categoria_livro)
+AS
+SELECT Liv_titulo, edi_nome, aut_nome, cat_descricao from tb_livro
+	JOIN tb_categoria on cat_codigo = liv_codcategoria
+	join tb_editora on edi_codigo = liv_codeditora
+	join tb_autorlivro on autliv_codlivro = liv_codigo
+	join tb_autor on autliv_codlivro = aut_codigo
+	WHERE upper(autliv_Principal) = 'SIM';
+
+5) Crie uma view que armazene o endereço onde cada livro foi editado;
+CREATE VIEW endereco_livro_edicao (liv_titulo, endereco_edicao)
+AS
+SELECT liv_titulo, end_descricao
+	join tb_editora on liv_codeditora = edi_codigo
+	join tb_endereco on end_codigo = edi_codendereco;
+
+6) Crie uma view que armazene o salário e o cargo de cada funcionário;
+
+CREATE VIEW cargo_salario (nome_fun, salario_fun, carg_fun)
+AS
+SELECT Fun_nome, Car_SalarioBase, Car_Descricao from tb_funcionario
+	join tb_cargo on fun_codcargo = car_codigo;
+
+7) Crie uma view que armazene o total de multa de cada exemplar;
+CREATE VIEW multa_exemplar (cod_exemplar, multa_exemplar)
+AS
+SELECT Exepre_codexemplar, sum(exepre_valormulta) from tb_exemplaremprestimo
+	group by Exepre_codexemplar;
+
+8) Crie uma view que armazene o total de multas por livro;
+CREATE OR REPLACE VIEW tmulta_livro (nome_livro, total_multa)
+AS
+select liv_titulo, sum(exepre_valormulta) from tb_livro
+JOIN tb_exemplar on liv_codigo = exe_codlivro
+join tb_exemplaremprestimo on exepre_codexemplar = exe_codigo
+where exepre_valormulta > 0;
+group by liv_titulo;
+
+9) Crie uma view que armazene o endereço completo do cliente;
+CREATE VIEW endereco_cliente (cli_nome, endereco_c, bairro_c, cidade_c)
+AS
+SELECT Cli_nome, end_descricao, bai_descricao, cid_descricao from tb_cliente
+JOIN tb_endereco on end_codigo = cli_codendereco
+join tb_cidade on cid_codigo = cli_codcidade
+join tb_bairro on bai_codigo = cli_codbairro;
+
+10) Realize consultas sobre cada uma das views criadas.
+SELECT * from endereco_cliente
+SELECT * tmulta_livro
+SELECT * multa_exemplar
+SELECT * endereco_livro_edicao
+SELECT * cargo_salario
+SELECT * endereco_livro_edicao
+SELECT * info_livro
+
+
+
